@@ -14,13 +14,10 @@ class MyLinkedList:
 
     def get(self, index: int) -> int:
         curr = self.head.next
-        i = 0
-        while curr:
-            if i == index:
-                return curr
-            i += 1
+        while curr and index > 0:
             curr = curr.next
-        if curr and curr != self.tail:
+            index -= 1
+        if curr and curr != self.tail and index == 0:
             return curr.val
         return -1
 
@@ -43,11 +40,26 @@ class MyLinkedList:
         
 
     def addAtIndex(self, index: int, val: int) -> None:
-        # TBA
+        curr = self.head.next
+        while curr and index > 0:
+            curr = curr.next
+            index -= 1
+        if curr and index == 0:
+            new_node = ListNode(val)
+            new_node.next = curr
+            new_node.prev = curr.prev
+            curr.prev.next = new_node
+            curr.prev = new_node
+
 
     def deleteAtIndex(self, index: int) -> None:
-        # TBA
-        
+        curr = self.head.next
+        while curr and index > 0:
+            curr = curr.next
+            index -= 1
+        if curr and curr != self.tail and index == 0:
+            curr.prev.next = curr.next
+            curr.next.prev = curr.prev
 
 
 # Your MyLinkedList object will be instantiated and called as such:
