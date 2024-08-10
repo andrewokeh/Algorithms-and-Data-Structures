@@ -1,7 +1,7 @@
 # Note: Can be done more efficiently with array, this solution is for doubly linked list practice
 
 class ListNode:
-    def __init__(self, val="", prev=None, next=None):
+    def __init__(self, val, prev=None, next=None):
         self.val = val
         self.prev = prev
         self.next = next
@@ -9,48 +9,28 @@ class ListNode:
 class BrowserHistory:
 
     def __init__(self, homepage: str):
-        self.head = ListNode(homepage)
-        self.tail = ListNode()
-        self.head.next = self.tail
-        self.tail.prev = self.head
-        self.curr = self.head
+        self.curr = ListNode(homepage)
         
 
     def visit(self, url: str) -> None:
-        new_page = ListNode(url)
+        self.curr.next = ListNode(url, self.curr)
+        self.curr = self.curr.next
 
-        self.curr.next = new_page
-        new_page.prev = self.curr
-        
-        self.tail.prev = new_page
-        new_page.next = self.tail
-        
-        self.curr = new_page
-        
 
     def back(self, steps: int) -> str:
-        while self.curr and steps > 0:
+        while self.curr.prev and steps > 0:
             self.curr = self.curr.prev
             steps -= 1
         
-        if steps == 0 and self.curr:
-            return self.curr.val
-        else:
-            self.curr = self.head
-            return self.head.val
+        return self.curr.val
         
 
     def forward(self, steps: int) -> str:
-        while self.curr and steps > 0:
+        while self.curr.next and steps > 0:
             self.curr = self.curr.next
             steps -= 1
-        
-        if steps == 0 and self.curr and self.curr != self.tail:
-            return self.curr.val
-        else:
-            self.curr = self.tail.prev
-            return self.tail.prev.val
-                
+
+        return self.curr.val
 
 
 # Your BrowserHistory object will be instantiated and called as such:
