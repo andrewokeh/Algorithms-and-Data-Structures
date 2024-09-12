@@ -4,16 +4,20 @@ class Solution:
         """
         Do not return anything, modify nums in-place instead.
         """
-        counts = [0] * 3
-
-        for n in nums:
-            counts[n] += 1
-
+        l, r = 0, len(nums) - 1
         i = 0
-        for n in range(len(counts)):
-            for _ in range(counts[n]):
-                nums[i] = n
-                i += 1
 
-        return nums
-    
+        def swap(a, b):
+            temp = nums[a]
+            nums[a] = nums[b]
+            nums[b] = temp
+
+        while i <= r:
+            if nums[i] == 0:
+                swap(l, i)
+                l += 1
+            elif nums[i] == 2:
+                swap(i, r)
+                r -= 1
+                i -= 1
+            i += 1
